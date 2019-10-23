@@ -5,7 +5,7 @@ metadata:
   namespace: my-amq
 spec:
   selector:
-    app: ~/git/my-hello-amq/composeddockerfile/Dockerfile/Dockerfile
+    app: ./Dockerfile
     potocol: TCP
     port: 80
     targetPort: 80
