@@ -1,21 +1,14 @@
-kind: Project
-apiVersion: project.openshift.io/v1
+apiVerson: v1
+kind: Service
 metadata:
-  name: my-amq
-  selfLink: /apis/project.openshift.io/v1/projects/my-amq
-  uid: bfddfab1-ef82-11e9-9447-02b09ceee148
-  resourceVersion: '33481888'
-  creationTimestamp: '2019-10-15T19:34:05Z'
-  annotations:
-    openshift.io/description: It's my attempt to understand the AMQ
-    openshift.io/display-name: new-to-this
-    openshift.io/requester: samuel.young.103@gmail.com
-    openshift.io/sa.scc.mcs: 's0:c258,c152'
-    openshift.io/sa.scc.supplemental-groups: 1066610000/10000
-    openshift.io/sa.scc.uid-range: 1066610000/10000
+  name: : my-amq
+  namespace: my-amq
 spec:
-  finalizers:
-    - kubernetes
-status:
-  phase: Active
+  selector:
+    app: ~/git/my-hello-amq/composeddockerfile/Dockerfile/Dockerfile
+    potocol: TCP
+    port: 80
+    targetPort: 80
+  type: NodePort
+
 
