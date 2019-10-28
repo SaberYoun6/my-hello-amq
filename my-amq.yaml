@@ -1,14 +1,21 @@
 apiVerson: v1
-kind: Service
+kind: Deployment
 metadata:
-  name: : my-amq
+  name: my-amq
   namespace: my-amq
 spec:
+  replicas: 2
   selector:
-    app: ./Dockerfile
-    potocol: TCP
-    port: 80
-    targetPort: 80
-  type: NodePort
-
-
+    matchlabels:
+       app: my-amq
+    template:
+      metadata:
+        labels:
+          app: my-amq
+          spec:
+            containers:
+            - name: my-amq
+              image: ../my-hello-amq/Dockerfile:v1
+              imagePullPolicy: Always
+              ports:
+                containerPort: 80

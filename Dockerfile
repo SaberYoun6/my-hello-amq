@@ -3,12 +3,12 @@ FROM fedora
 
 RUN yum -y update && yum clean all
 RUN dnf -y install java-1.8.0-openjdk libaio && dnf clean all
-RUN dnf -y install git && dnf clean all
-RUN dnf -y install gcc-c++ make && dnf clean all
+RUN yum -y install git && yum clean all
+RUN yum -y install gcc-c++ make && yum clean all
+RUN yum -y install python-qpid-proton python-qpid-proton-docs && yum clean all 
 
-CMD /bin/curl -sL https://rpm.nodesource.com/setup_10.x | -E bash -
 
-RUN dnf -y install nodejs && dnf clean all
+CMD pip install flask
 
 
 WORKDIR /usr/local/bin/AMQ_home
@@ -22,11 +22,18 @@ CMD /bin/artemis create --user Admin --password swordfish --role admin --allow-a
 WORKDIR /usr/local/bin/AMQ_home/
 CMD  /bin/artemis-service start 
 
-COPY server.js .
+CMD /bin/artemis queue create --name examples --auto-create-address --anycast
 
-CMD node server.js
+EXPOSE 5000 
 
-EXPOSE 8080 
+COPY send.py .
+
+COPY recieve.py .
+
+CMD python send.py amqp:://localhost queue1 hello
+
+CMD python recieve.py amqp://localhost queue1
+
 
 #RUN kubectl get nodes 
 #CMD ["kubectl", "get" , "node"]
